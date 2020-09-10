@@ -8,19 +8,29 @@ use App\Customer;
 class CustomersController extends Controller
 
 {
-    public function list() {
-        $customers = Customer::all();
+  public function list() {
+    $customers = Customer::all();
 
-        return view('internals.customers',[
-            'customers' => $customers
-        ]);
-    }
+    return view('internals.customers',[
+      'customers' => $customers
+    ]);
+  }
 
-    public function store(Request $request) {
-     $customer = new Customer();
-     $customer->name = $request->name;
-     $customer->save();
-     return back();
-    }
+  public function store(Request $request)
+  {
+
+    $data = $request->validate([
+      'name' => 'required|min:3',
+      'email' => 'required|email'
+    ]);
+
+
+
+    $customer = new Customer();
+    $customer->name = $request->name;
+    $customer->email = $request->email;
+    $customer->save();
+    return back();
+  }
 
 }
