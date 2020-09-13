@@ -13,8 +13,10 @@
     <label for="name">Status: </label>
     <select class="form-control" name="active" value="{{old('status') ?? $customer->status}}">
       <option value="" disabled>Select customer status</option>
-      <option value="1">Active</option>
-      <option value="0">Inactive</option>
+
+      @foreach ($customer->activeOptions() as $k => $v)
+  <option value="{{$k}}" {{$customer->active == $v ? 'selected' : ''}}>{{$v}}</option>
+      @endforeach
     </select>
   </div>
 
