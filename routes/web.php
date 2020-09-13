@@ -20,6 +20,8 @@ Route::get('/', function () {
 
 Route::view('contact', 'contact');
 
+Route::get('contact', 'ContactFormController@create');
+
 Route::view('about-me', 'about');
 
 
