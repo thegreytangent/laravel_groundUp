@@ -20,6 +20,11 @@
     <div class="container">
     @include("nav", ["user" => "thegreytangent"])
 
+    @if (session()->has('message'))
+    <div class="alert alert-info">
+    <strong>Success {{session()->get('message')}}</strong>
+    </div>
+    @endif
     @yield('content')
   </div>
 </body>
