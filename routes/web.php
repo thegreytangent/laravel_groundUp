@@ -21,10 +21,11 @@ Route::get('/', function () {
 
 
 
-Route::get('contact', 'ContactFormController@create');
-Route::post('contact', 'ContactFormController@store');
+// Route::get('contact', 'ContactFormController@create')->name('contact.create');
+Route::get('contact', [App\Http\Controllers\ContactFormController::class, 'create'])->name('contact.create');
+Route::post('contact', 'ContactFormController@store')->name('contact.store');
 
-Route::view('about-me', 'about')->middleware('test');
+Route::view('about-me', 'about');
 
 
 Route::resource('customers', 'CustomersController');;

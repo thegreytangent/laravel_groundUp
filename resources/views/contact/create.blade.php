@@ -6,7 +6,7 @@
 
   @if (!session()->has('message'))
   <h1>Contact us  </h1>
-  <form class="" method="POST" action="/contact">
+<form class="" method="POST" action="{{route('contact.store')}}">
     <div class="form-group">
       <label for="">Name</label>
       <input class="form-control" type="text" value="{{old('name')}}" name="name">

@@ -12,7 +12,7 @@
         {{$errors->first('name')}}
         {{$errors->first('email')}}
 
-        <form method="POST" action="/customers/{{$customer->id}}">
+      <form method="POST" action="{{ route('customers.update', ['customer'] => $customer )}}">
           @method('PUT');
           @include('customers.form',['customer' => $customer])
           <button type="submit" class="btn btn-primary" name="button">Update</button>
