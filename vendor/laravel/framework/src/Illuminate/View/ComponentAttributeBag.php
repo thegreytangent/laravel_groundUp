@@ -119,6 +119,19 @@ class ComponentAttributeBag implements ArrayAccess, Htmlable, IteratorAggregate
     }
 
     /**
+     * Return a bag of attributes with keys that do not start with the given value / pattern.
+     *
+     * @param  string  $string
+     * @return static
+     */
+    public function whereDoesntStartWith($string)
+    {
+        return $this->filter(function ($value, $key) use ($string) {
+            return ! Str::startsWith($key, $string);
+        });
+    }
+
+    /**
      * Return a bag of attributes that have keys starting with the given value / pattern.
      *
      * @param  string  $string
@@ -152,7 +165,7 @@ class ComponentAttributeBag implements ArrayAccess, Htmlable, IteratorAggregate
     /**
      * Merge additional attributes / values into the attribute bag.
      *
-     * @param  array  $attributes
+     * @param  array  $attributeDefaults
      * @return static
      */
     public function merge(array $attributeDefaults = [])
@@ -160,7 +173,7 @@ class ComponentAttributeBag implements ArrayAccess, Htmlable, IteratorAggregate
         $attributes = [];
 
         $attributeDefaults = array_map(function ($value) {
-            if (is_null($value) || is_bool($value)) {
+            if (is_object($value) || is_null($value) || is_bool($value)) {
                 return $value;
             }
 
@@ -183,6 +196,16 @@ class ComponentAttributeBag implements ArrayAccess, Htmlable, IteratorAggregate
     }
 
     /**
+     * Get all of the raw attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
      * Set the underlying attributes.
      *
      * @param  array  $attributes
@@ -190,6 +213,15 @@ class ComponentAttributeBag implements ArrayAccess, Htmlable, IteratorAggregate
      */
     public function setAttributes(array $attributes)
     {
+        if (isset($attributes['attributes']) &&
+            $attributes['attributes'] instanceof self) {
+            $parentBag = $attributes['attributes'];
+
+            unset($attributes['attributes']);
+
+            $attributes = $parentBag->merge($attributes)->getAttributes();
+        }
+
         $this->attributes = $attributes;
     }
 
@@ -206,7 +238,7 @@ class ComponentAttributeBag implements ArrayAccess, Htmlable, IteratorAggregate
     /**
      * Merge additional attributes / values into the attribute bag.
      *
-     * @param  array  $attributes
+     * @param  array  $attributeDefaults
      * @return \Illuminate\Support\HtmlString
      */
     public function __invoke(array $attributeDefaults = [])
