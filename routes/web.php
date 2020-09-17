@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,10 +24,10 @@ Route::get('/', function () {
 Route::get('contact', 'ContactFormController@create');
 Route::post('contact', 'ContactFormController@store');
 
-Route::view('about-me', 'about');
+Route::view('about-me', 'about')->middleware('test');
 
 
-Route::resource('customers', 'CustomersController');
+Route::resource('customers', 'CustomersController');;
 
 Auth::routes();
 
