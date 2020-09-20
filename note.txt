@@ -1,0 +1,3 @@
+jobs -l
+
+php artisan queue:work > storage/logs/jobs.log &

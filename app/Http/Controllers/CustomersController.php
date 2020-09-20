@@ -45,7 +45,7 @@ class CustomersController extends Controller {
   public function update(Customer $customer) {
 
     $data = request()->validate([
-      'name' => 'required',
+      'name'  => 'required',
       'email' => 'required',
       'active' => 'required',
       'company_id' => 'required'
